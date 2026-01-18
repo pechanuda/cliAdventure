@@ -5,10 +5,31 @@ import java.util.List;
 public class Location {
 
     private String name;
-
     private Item key;
+    private boolean locked;
+    private boolean hidden;
     private List<Location> exits;
     private List<Item> items;
+    private List<Monster> monsters;
+    private List<NPC> npcs;
+
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
     public void setItems(List<Item> items) {
         this.items = items;
     }
