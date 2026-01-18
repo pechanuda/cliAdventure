@@ -2,6 +2,8 @@ package org.pechanuda.orchestration;
 
 import java.util.Scanner;
 
+import org.pechanuda.model.Inventory;
+
 public class PromptResolution {
 
     private static Scanner scanner = new Scanner(System.in);
@@ -11,6 +13,7 @@ public class PromptResolution {
         System.out.println("- Available exits are: " + Game.getCurrentLocation().getExits());
         //        System.out.print("Available exits are: " + currentLocation.getExits().stream().filter(location -> location.isHidden() = false));
         System.out.println("- Available items are: " + Game.getCurrentLocation().getItems());
+        System.out.println("- Inventory: " + Game.getInventory().getItems());
         System.out.println("What do you want to do next?");
         System.out.println("----------------------------");
         System.out.println("go <LOCATION> | attack <MONSTER> | pick <ITEM> | use <ITEM>");
@@ -56,6 +59,10 @@ public class PromptResolution {
                         processUse(subject);
                         return;
                     }
+                    case "give" -> {
+                        processGive(subject);
+                        return;
+                    }
                     default -> {
                         System.out.println("!!!! INVALID STATEMENT !!!!");
                         return;
@@ -66,6 +73,11 @@ public class PromptResolution {
                 return;
             }
         }
+    }
+
+    private static void processGive(String subject) {
+        // TODO object parsing
+        System.out.println("giving " + subject);
     }
 
     private static void processAttack(String subject) {
@@ -81,7 +93,13 @@ public class PromptResolution {
         }
     }
     private static void processPick(String subject) {
-        System.out.println("picking up " + subject);
+        try {
+            Game.getInventory().getItems().add(Game.getAvailableItemByName(subject));
+            System.out.println("-> picking up " + subject);
+            System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("!!!! Unavailable item: " + subject + " !!!!");
+        }
     }
     private static void processTalk(String subject) {
         System.out.println("talking to " + subject);

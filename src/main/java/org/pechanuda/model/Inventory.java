@@ -1,9 +1,13 @@
 package org.pechanuda.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Inventory {
     private int maxCapacity;
     private int currentCapacity;
 
+    private List<Item> items = new ArrayList<>();
     public int getMaxCapacity() {
         return maxCapacity;
     }
@@ -18,5 +22,13 @@ public class Inventory {
 
     public void setCurrentCapacity(int currentCapacity) {
         this.currentCapacity = currentCapacity;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

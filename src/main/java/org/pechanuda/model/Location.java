@@ -1,5 +1,6 @@
 package org.pechanuda.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
@@ -9,7 +10,7 @@ public class Location {
     private boolean locked;
     private boolean hidden;
     private List<Location> exits;
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
     private List<Monster> monsters;
     private List<NPC> npcs;
 
@@ -31,7 +32,7 @@ public class Location {
     }
 
     public void setItems(List<Item> items) {
-        this.items = items;
+        this.items.addAll(items);
     }
 
     public Location(String name) {

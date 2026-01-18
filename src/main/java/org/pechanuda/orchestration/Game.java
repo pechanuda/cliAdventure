@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.pechanuda.model.Inventory;
+import org.pechanuda.model.Item;
 import org.pechanuda.model.Location;
 
 public class Game implements IGame {
 
     private GameStatus gameStatus = GameStatus.IN_PROGRESS;
-    private Inventory inventory = new Inventory();
+    private static Inventory inventory = new Inventory();
 
     private static List<Location> availableLocations = new ArrayList<>();
     private static Location currentLocation;
+
+    public static Inventory getInventory() {
+        return inventory;
+    }
+
+    public static void setInventory(Inventory inventory) {
+        Game.inventory = inventory;
+    }
 
     public List<Location> getLocations() {
         return availableLocations;
@@ -97,6 +106,11 @@ public class Game implements IGame {
         arrakeenCityBlacksmith.setExits(List.of(arrakeenCityMainGate));
         arrakeenCitySewers.setExits(List.of(arrakeenCityMainGate));
 
+        Item moneyBag = new Item("Money bag");
+        arrakeenCityBank.setItems(List.of(moneyBag));
+        Item letter = new Item("Letter");
+        oldCrossroad.setItems(List.of(letter));
+
         currentLocation = oldCrossroad;
         availableLocations = oldCrossroad.getExits();
     }
@@ -126,6 +140,16 @@ public class Game implements IGame {
         } else {
             System.out.println("gg");
         }
+    }
+
+    public static Item getAvailableItemByName(String name) {
+        for (Item item : currentLocation.getItems()) {
+            if (item.getName().equals(name)) {
+                currentLocation.getItems().remove(item);
+                return item;
+            }
+        }
+        throw new IllegalArgumentException("Unable to pick up item: " + name);
     }
 
     public static Location getAvailableLocationByName(String name) {
