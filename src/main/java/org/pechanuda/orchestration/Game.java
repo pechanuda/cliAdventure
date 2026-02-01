@@ -3,12 +3,13 @@ package org.pechanuda.orchestration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pechanuda.model.Inventory;
+import org.pechanuda.model.GameWorld;
 import org.pechanuda.model.Item;
 import org.pechanuda.model.Location;
 
 public class Game implements IGame {
 
+    private GameWorld gameWorld = null;
     private GameStatus gameStatus = GameStatus.IN_PROGRESS;
     private static Inventory inventory = new Inventory();
 
@@ -75,12 +76,21 @@ public class Game implements IGame {
 
 
     @Override
+    public void setGameWorld(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
+    }
+
+    @Override
+    public GameWorld getGameWorld() {
+        return gameWorld;
+    }
+
+    @Override
     public void initGame() {
 
         initLocations();
         initItems();
         initMonsters();
-        initNPCs();
         initInventory();
     }
 
@@ -113,10 +123,6 @@ public class Game implements IGame {
 
         currentLocation = oldCrossroad;
         availableLocations = oldCrossroad.getExits();
-    }
-
-    private void initNPCs() {
-
     }
 
     private void initMonsters() {

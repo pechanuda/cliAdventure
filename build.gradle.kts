@@ -22,6 +22,7 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
     implementation(libs.javaxJson)
+    implementation(libs.javaxJsonImpl)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

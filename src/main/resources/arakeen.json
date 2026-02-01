@@ -1,0 +1,89 @@
+{
+  "gameName": "arakeen",
+  "displayGameName": "Arakeen adventures",
+  "initLocationId": 1,
+  "locations": [
+    {
+      "id": 1,
+      "name": "Old Crossroad",
+      "key": "",
+      "locked": false,
+      "hidden": false,
+      "exits": [2,5,3],
+      "items": [2],
+      "monsters": []
+    },
+    {
+      "id": 2,
+      "name": "Tavern by the Blind Monk",
+      "key": "",
+      "locked": false,
+      "hidden": false,
+      "exits": [1],
+      "items": [],
+      "monsters": []
+    },
+    {
+      "id": 3,
+      "name": "Arakeen City Main Gate",
+      "key": "",
+      "locked": false,
+      "hidden": false,
+      "exits": [1,4],
+      "items": [],
+      "monsters": []
+    },
+    {
+      "id": 4,
+      "name": "Arakeen City sewers",
+      "key": "",
+      "locked": true,
+      "hidden": false,
+      "exits": [3],
+      "items": [],
+      "monsters": [1]
+    },
+    {
+      "id": 5,
+      "name": "Eel's Lake",
+      "key": "",
+      "locked": false,
+      "hidden": false,
+      "exits": [1],
+      "items": [3],
+      "monsters": []
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "moneyBag"
+    },
+    {
+      "id": 2,
+      "name": "letter"
+    },
+    {
+      "id": 3,
+      "name": "keyFromSewers"
+    }
+  ],
+  "monsters": [
+    {
+      "id": 1,
+      "name": "goblin",
+      "hitpoints": 40,
+      "attack": 5,
+      "defense": 5,
+      "loot": [1]
+    }
+  ],
+  "victory": {
+    "type": "LOCATION_ENTRY",
+    "locationId": "4"
+  },
+
+  "defeat": {
+    "type": "death"
+  }
+}

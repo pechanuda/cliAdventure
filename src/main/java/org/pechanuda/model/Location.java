@@ -3,16 +3,14 @@ package org.pechanuda.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class Location extends Entity {
 
-    private String name;
     private Item key;
     private boolean locked;
     private boolean hidden;
     private List<Location> exits;
     private List<Item> items = new ArrayList<>();
     private List<Monster> monsters;
-    private List<NPC> npcs;
 
 
     public boolean isLocked() {
@@ -36,7 +34,10 @@ public class Location {
     }
 
     public Location(String name) {
-        this.name = name;
+        super(name);
+    }
+    public Location() {
+        super();
     }
 
     public Item getKey() {
@@ -47,9 +48,6 @@ public class Location {
         this.key = key;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -65,10 +63,5 @@ public class Location {
 
     public List<Item> getItems() {
         return items;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

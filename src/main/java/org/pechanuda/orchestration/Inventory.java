@@ -1,7 +1,9 @@
-package org.pechanuda.model;
+package org.pechanuda.orchestration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.pechanuda.model.Item;
 
 public class Inventory {
     private int maxCapacity;

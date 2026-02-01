@@ -1,14 +1,16 @@
 package org.pechanuda.model;
 
-public class Monster {
-    public Monster(int hitPoints, int attack, int defense, Item loot) {
+public class Monster extends Entity {
+    public Monster(int hitPoints, int attack, int defense, Item loot, String name, int id) {
+        super(name, id);
         this.hitPoints = hitPoints;
         this.attack = attack;
         this.defense = defense;
         this.loot = loot;
     }
 
-    public Monster() {
+    public Monster(String name) {
+        super(name);
     }
 
     private int hitPoints;

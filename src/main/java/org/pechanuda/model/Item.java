@@ -1,22 +1,15 @@
 package org.pechanuda.model;
 
-public class Item {
+public class Item extends Entity {
+
+    public Item() {
+    }
+
     public Item(String name) {
-        this.name = name;
+        super(name);
     }
 
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    public Item(String name, int id) {
+        super(name, id);
     }
 }

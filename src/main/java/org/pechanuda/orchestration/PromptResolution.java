@@ -2,8 +2,6 @@ package org.pechanuda.orchestration;
 
 import java.util.Scanner;
 
-import org.pechanuda.model.Inventory;
-
 public class PromptResolution {
 
     private static Scanner scanner = new Scanner(System.in);
