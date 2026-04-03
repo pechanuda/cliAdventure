@@ -9,7 +9,7 @@ public class Item extends Entity {
         super(name);
     }
 
-    public Item(String name, int id) {
-        super(name, id);
+    public Item(int id, String name) {
+        super(id, name);
     }
 }

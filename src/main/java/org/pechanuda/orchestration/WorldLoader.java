@@ -16,6 +16,7 @@ import javax.json.JsonValue;
 import org.pechanuda.model.GameWorld;
 import org.pechanuda.model.Item;
 import org.pechanuda.model.Location;
+import org.pechanuda.model.Monster;
 
 public class WorldLoader {
 
@@ -34,7 +35,7 @@ public class WorldLoader {
             gameWorld.setName(gameWordlJsonObject.getString("gameName"));
             gameWorld.setDisplayName(gameWordlJsonObject.getString("displayGameName"));
             parseItems(gameWordlJsonObject);
-            //            parseMonsters();
+            parseMonsters(gameWordlJsonObject);
             parseLocations(gameWordlJsonObject);
 
         } catch (IOException e) {
@@ -50,13 +51,41 @@ public class WorldLoader {
 
         for(JsonValue itemValue : itemsArr) {
             JsonObject locObject = itemValue.asJsonObject();
-            Item item = new Item();
-
-            item.setName(locObject.getString("name"));
-            item.setId(locObject.getInt("id"));
+            Item item = new Item(
+                    locObject.getInt("id"),
+                    locObject.getString("name")
+            );
+            items.add(item);
         }
 
         gameWorld.setItems(items);
+    }
+
+    private void parseMonsters(JsonObject gameWordlJsonObject) {
+        JsonArray monstersArr = gameWordlJsonObject.getJsonArray("monsters");
+        List<Monster> monsters = new ArrayList<>();
+
+        for(JsonValue monsterValue : monstersArr) {
+            JsonObject locObject = monsterValue.asJsonObject();
+
+            Item lootItem = null;
+            try {
+                lootItem = getLoadedItemById(locObject.getInt("lootId"));
+            } catch (NullPointerException ignored) {
+                System.out.println("NPE caught, loot item will be null");
+            }
+            Monster monster = new Monster(
+                locObject.getInt("id"),
+                locObject.getString("name"),
+                locObject.getInt("hitPoints"),
+                locObject.getInt("attack"),
+                locObject.getInt("defense"),
+                lootItem
+            );
+            monsters.add(monster);
+        }
+
+        gameWorld.setMonsters(monsters);
     }
 
     private void parseLocations(JsonObject gameWordlJsonObject) {
@@ -83,5 +112,23 @@ public class WorldLoader {
         }
 
         gameWorld.setLocations(locations);
+    }
+
+    public Item getLoadedItemById(int itemId) {
+        for (Item item : gameWorld.getItems()) {
+            if(item.getId() == itemId) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public Monster getLoadedMonsterById(int monsterId) {
+        for (Monster monster : gameWorld.getMonsters()) {
+            if(monster.getId() == monsterId) {
+                return monster;
+            }
+        }
+        return null;
     }
 }

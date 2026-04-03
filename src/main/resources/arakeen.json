@@ -72,10 +72,10 @@
     {
       "id": 1,
       "name": "goblin",
-      "hitpoints": 40,
+      "hitPoints": 40,
       "attack": 5,
       "defense": 5,
-      "loot": [1]
+      "lootId": 1
     }
   ],
   "victory": {
