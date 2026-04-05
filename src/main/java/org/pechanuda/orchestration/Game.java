@@ -54,7 +54,7 @@ public class Game implements IGame {
 
 
     @Override
-    public void promptPlayer() {
+    public void promptPlayer(GameState gameState) {
 //        System.out.println("You are in: " + currentLocation);
 //        System.out.println("Available exits are: " + currentLocation.getExits());
 ////        System.out.print("Available exits are: " + currentLocation.getExits().stream().filter(location -> location.isHidden() = false));
@@ -62,7 +62,7 @@ public class Game implements IGame {
 //        System.out.println("What do you want to do next?");
 //        System.out.println("go <LOCATION> | attack <MONSTER> | pick <ITEM> | use <ITEM>");
 
-        String promptResult = PromptResolution.readPrompt();
+        String promptResult = PromptResolution.readPrompt(gameState);
 
         if (promptResult.equalsIgnoreCase("exit")) {
             this.gameStatus = GameStatus.EXITED;
@@ -85,56 +85,9 @@ public class Game implements IGame {
         return gameWorld;
     }
 
-    @Override
-    public void initGame() {
-
-        initLocations();
-        initItems();
-        initMonsters();
-        initInventory();
-    }
-
-    private void initLocations() {
-        Location oldCrossroad = new Location("Old crossroad");
-        Location tavernByTheBlindMonk = new Location("Tavern by the Blind Monk");
-        Location eelsLake = new Location("Eel's Lake");
-        Location arrakeenCityMainGate = new Location("Arakeen City Main Gate");
-        Location arrakeenCityThroneRoom = new Location("Arakeen Throne room");
-        Location arrakeenCityMarket = new Location("Arakeen City market");
-        Location arrakeenCityBank = new Location("Arakeen City bank");
-        Location arrakeenCityBlacksmith = new Location("Arakeen City blacksmith");
-        Location arrakeenCitySewers = new Location("Arakeen City sewers");
-
-
-        oldCrossroad.setExits(List.of(tavernByTheBlindMonk, eelsLake, arrakeenCityMainGate));
-        arrakeenCityMainGate.setExits(List.of(oldCrossroad, arrakeenCityBank, arrakeenCityMarket, arrakeenCityBlacksmith, arrakeenCityThroneRoom, arrakeenCitySewers));
-        tavernByTheBlindMonk.setExits(List.of(oldCrossroad));
-        eelsLake.setExits(List.of(oldCrossroad));
-        arrakeenCityThroneRoom.setExits(List.of(arrakeenCityMainGate));
-        arrakeenCityMarket.setExits(List.of(arrakeenCityMainGate));
-        arrakeenCityBank.setExits(List.of(arrakeenCityMainGate));
-        arrakeenCityBlacksmith.setExits(List.of(arrakeenCityMainGate));
-        arrakeenCitySewers.setExits(List.of(arrakeenCityMainGate));
-
-        Item moneyBag = new Item("Money bag");
-        arrakeenCityBank.setItems(List.of(moneyBag));
-        Item letter = new Item("Letter");
-        oldCrossroad.setItems(List.of(letter));
-
-        currentLocation = oldCrossroad;
-        availableLocations = oldCrossroad.getExits();
-    }
-
-    private void initMonsters() {
-
-    }
-
-    private void initInventory() {
-
-    }
-
-    private void initItems() {
-
+    public void initGame(GameState gameState) {
+        gameState.setCurrentLocation(gameWorld.getInitLocation());
+        availableLocations = gameState.getCurrentLocation().getExits();
     }
 
     @Override

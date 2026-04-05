@@ -4,10 +4,10 @@ import org.pechanuda.model.GameWorld;
 
 public interface IGame {
 
-    void initGame();
+    void initGame(GameState gameState);
     void printIntro();
     void printOutro();
-    void promptPlayer();
+    void promptPlayer(GameState gameState);
 
     GameStatus getGameStatus();
 

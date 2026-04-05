@@ -6,11 +6,12 @@ public class PromptResolution {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static String readPrompt() {
-        System.out.println("- You are in: " + Game.getCurrentLocation());
-        System.out.println("- Available exits are: " + Game.getCurrentLocation().getExits());
+    public static String readPrompt(GameState gameState) {
+        System.out.println("- You are in: " + gameState.getCurrentLocation());
+        System.out.println("- Available exits are: " + gameState.getCurrentLocation().getExits());
         //        System.out.print("Available exits are: " + currentLocation.getExits().stream().filter(location -> location.isHidden() = false));
-        System.out.println("- Available items are: " + Game.getCurrentLocation().getItems());
+        System.out.println("- Available items are: " + gameState.getCurrentLocation().getItems());
+        System.out.println("- Present monsters are: " + gameState.getCurrentLocation().getMonsters());
         System.out.println("- Inventory: " + Game.getInventory().getItems());
         System.out.println("What do you want to do next?");
         System.out.println("----------------------------");
@@ -22,11 +23,11 @@ public class PromptResolution {
             return "EXIT";
         }
 
-        processPrompt(prompt);
+        processPrompt(prompt, gameState);
         return "continuing...";
     }
 
-    public static void processPrompt(String prompt) {
+    public static void processPrompt(String prompt, GameState gameState) {
 
         while (true) {
             if (prompt.split(" ").length > 1) {

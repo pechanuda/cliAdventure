@@ -2,6 +2,7 @@ package org.pechanuda;
 
 import org.pechanuda.model.GameWorld;
 import org.pechanuda.orchestration.Game;
+import org.pechanuda.orchestration.GameState;
 import org.pechanuda.orchestration.GameStatus;
 import org.pechanuda.orchestration.WorldLoader;
 
@@ -15,14 +16,15 @@ public class Main {
     public static void main(String[] args) {
 
         Game game = new Game();
+        GameState gameState = new GameState();
 
         game.setGameWorld(worldLoader.load("arakeen.json"));
 
         game.printIntro();
-        game.initGame();
+        game.initGame(gameState);
 
         while (game.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
-            game.promptPlayer();
+            game.promptPlayer(gameState);
         }
 
         game.printOutro();

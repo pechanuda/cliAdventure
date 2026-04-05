@@ -58,12 +58,30 @@ public class GameWorld {
     private List<Monster> monsters;
     private List<Item> items;
 
-    public Item getItemById(int id) {
+    public Item getItemById(int itemId) {
         for (Item i : items) {
-            if (i.getId() == id) {
+            if (i.getId() == itemId) {
                 return i;
             }
         }
-        throw new RuntimeException("Item with id: " + id + " not found.");
+        throw new RuntimeException("Item with id: " + itemId + " not found.");
+    }
+
+    public Monster getMonsterById(int monsterId) {
+        for (Monster m : monsters) {
+            if (m.getId() == monsterId) {
+                return m;
+            }
+        }
+        throw new RuntimeException("Monster with id: " + monsterId + " not found.");
+    }
+
+    public Location getLocationById(int locationId) {
+        for (Location loc : locations) {
+            if (loc.getId() == locationId) {
+                return loc;
+            }
+        }
+        throw new RuntimeException("Location with id: " + locationId + " not found.");
     }
 }

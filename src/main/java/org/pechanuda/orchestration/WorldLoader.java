@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
@@ -37,6 +38,10 @@ public class WorldLoader {
             parseItems(gameWordlJsonObject);
             parseMonsters(gameWordlJsonObject);
             parseLocations(gameWordlJsonObject);
+            populateLocationExists(gameWordlJsonObject);
+
+            Location initLocation = gameWorld.getLocationById(gameWordlJsonObject.getInt("initLocationId"));
+            gameWorld.setInitLocation(initLocation);
 
         } catch (IOException e) {
             throw new RuntimeException("Cannot read file: " + filename, e);
@@ -70,7 +75,7 @@ public class WorldLoader {
 
             Item lootItem = null;
             try {
-                lootItem = getLoadedItemById(locObject.getInt("lootId"));
+                lootItem = gameWorld.getItemById(locObject.getInt("lootId"));
             } catch (NullPointerException ignored) {
                 System.out.println("NPE caught, loot item will be null");
             }
@@ -94,24 +99,59 @@ public class WorldLoader {
 
         for(JsonValue locationValue : locationArr) {
             JsonObject locObject = locationValue.asJsonObject();
-            Location loc = new Location();
+            Location loc = new Location(
+                locObject.getInt("id"),
+                locObject.getString("name"),
+                locObject.getBoolean("hidden"),
+                locObject.getBoolean("locked")
+            );
+            List<Integer> itemsIdsList = null;
+            try {
+                itemsIdsList = locObject.getJsonArray("items").getValuesAs(JsonNumber::intValue);
+            } catch (NullPointerException ignored) {}
+            if (itemsIdsList != null) {
+                for (int itemId : itemsIdsList) {
+                    loc.addItem(gameWorld.getItemById(itemId));
+                }
+            }
 
-            loc.setName(locObject.getString("name"));
-            loc.setId(locObject.getInt("id"));
-            loc.setHidden(locObject.getBoolean("hidden"));
-            loc.setLocked(locObject.getBoolean("locked"));
-
-            List<JsonValue> itemsArr = locObject.getJsonArray("items").asJsonArray();
-            for (JsonValue itemValue : itemsArr) {
-
-                int itemId = Integer.parseInt(itemValue.toString());
-                loc.getItems().add(gameWorld.getItemById(itemId));
+            List<Integer> monsterIdsList = null;
+            try {
+                monsterIdsList = locObject.getJsonArray("monsters").getValuesAs(JsonNumber::intValue);
+            } catch (NullPointerException ignored) {}
+            if (monsterIdsList != null) {
+                for (int monsterId : monsterIdsList) {
+                    if (loc.getMonsters() == null) {
+                        loc.setMonsters(List.of(gameWorld.getMonsterById(monsterId)));
+                    } else {
+                        loc.addMonster(gameWorld.getMonsterById(monsterId));
+                    }
+                }
             }
 
             locations.add(loc);
         }
 
         gameWorld.setLocations(locations);
+    }
+
+    private void populateLocationExists(JsonObject gameWordlJsonObject) {
+        JsonArray locationArr = gameWordlJsonObject.getJsonArray("locations");
+
+        for(JsonValue locationValue : locationArr) {
+            JsonObject locObject = locationValue.asJsonObject();
+            int locId = locObject.getInt("id");
+            List<Integer> exitsIdsList = null;
+            try {
+                exitsIdsList = locObject.getJsonArray("exits").getValuesAs(JsonNumber::intValue);
+            } catch (NullPointerException ignored) {}
+            Location loc = gameWorld.getLocationById(locId);
+            if (exitsIdsList != null) {
+                for (int exitId : exitsIdsList) {
+                    loc.addExit(gameWorld.getLocationById(exitId));
+                }
+            }
+        }
     }
 
     public Item getLoadedItemById(int itemId) {
