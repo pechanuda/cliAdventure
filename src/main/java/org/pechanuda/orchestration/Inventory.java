@@ -37,4 +37,9 @@ public class Inventory {
     public void addItem(Item item) {
         items.add(item);
     }
+
+    public Inventory(int maxCapacity, int currentCapacity) {
+        this.maxCapacity = maxCapacity;
+        this.currentCapacity = currentCapacity;
+    }
 }

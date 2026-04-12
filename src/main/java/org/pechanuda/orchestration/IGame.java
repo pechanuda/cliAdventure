@@ -6,11 +6,8 @@ public interface IGame {
 
     void initGame(GameState gameState);
     void printIntro();
-    void printOutro();
+    void printOutro(GameState gameState);
     void promptPlayer(GameState gameState);
-
-    GameStatus getGameStatus();
-
     void setGameWorld(GameWorld gameWorld);
     GameWorld getGameWorld();
 }

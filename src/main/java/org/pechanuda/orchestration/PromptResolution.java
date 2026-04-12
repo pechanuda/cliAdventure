@@ -6,25 +6,10 @@ public class PromptResolution {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static String readPrompt(GameState gameState) {
-        System.out.println("- You are in: " + gameState.getCurrentLocation());
-        System.out.println("- Available exits are: " + gameState.getCurrentLocation().getExits());
-        //        System.out.print("Available exits are: " + currentLocation.getExits().stream().filter(location -> location.isHidden() = false));
-        System.out.println("- Available items are: " + gameState.getCurrentLocation().getItems());
-        System.out.println("- Present monsters are: " + gameState.getCurrentLocation().getMonsters());
-        System.out.println("- Inventory: " + Game.getInventory().getItems());
-        System.out.println("What do you want to do next?");
-        System.out.println("----------------------------");
-        System.out.println("go <LOCATION> | attack <MONSTER> | pick <ITEM> | use <ITEM>");
-
+    public static void readPrompt(GameState gameState) {
         String prompt = scanner.nextLine();
 
-        if (prompt.equalsIgnoreCase("EXIT")) {
-            return "EXIT";
-        }
-
         processPrompt(prompt, gameState);
-        return "continuing...";
     }
 
     public static void processPrompt(String prompt, GameState gameState) {
@@ -34,32 +19,29 @@ public class PromptResolution {
                 String verb = prompt.split(" ")[0];
                 String subject = prompt.substring(verb.length() + 1);
 
-//                if (subject.contains(" ")) {
-//                    processPrompt(prompt);
-//                }
                 switch (verb.toLowerCase()) {
                     case "go" -> {
-                        processMove(subject);
+                        processMove(subject ,gameState);
                         return;
                     }
                     case "pick" -> {
-                        processPick(subject);
+                        processPick(subject ,gameState);
                         return;
                     }
                     case "attack" -> {
-                        processAttack(subject);
+                        processAttack(subject ,gameState);
                         return;
                     }
                     case "talk" -> {
-                        processTalk(subject);
+                        processTalk(subject ,gameState);
                         return;
                     }
                     case "use" -> {
-                        processUse(subject);
+                        processUse(subject ,gameState);
                         return;
                     }
                     case "give" -> {
-                        processGive(subject);
+                        processGive(subject ,gameState);
                         return;
                     }
                     default -> {
@@ -67,6 +49,13 @@ public class PromptResolution {
                         return;
                     }
                 }
+            } else if(
+                    prompt.equalsIgnoreCase("EXIT") ||
+                    prompt.equalsIgnoreCase("QUIT") ||
+                    prompt.equalsIgnoreCase("Q")
+            ) {
+                gameState.setGameStatus(GameStatus.EXITED);
+                return;
             } else {
                 System.out.println("!!!! INVALID STATEMENT !!!!");
                 return;
@@ -74,36 +63,36 @@ public class PromptResolution {
         }
     }
 
-    private static void processGive(String subject) {
+    private static void processGive(String subject, GameState gameState) {
         // TODO object parsing
         System.out.println("giving " + subject);
     }
 
-    private static void processAttack(String subject) {
+    private static void processAttack(String subject, GameState gameState) {
         System.out.println("attacking " + subject);
     }
-    private static void processMove(String subject) {
+    private static void processMove(String subject, GameState gameState) {
         try {
-            Game.setCurrentLocationByName(subject);
+            gameState.setCurrentLocationByName(subject);
             System.out.println("-> going to " + subject);
             System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("!!!! Unavailable location: " + subject + " !!!!");
         }
     }
-    private static void processPick(String subject) {
+    private static void processPick(String subject, GameState gameState) {
         try {
-            Game.getInventory().getItems().add(Game.getAvailableItemByName(subject));
+            gameState.addItemToInventory(Game.getAvailableItemByName(subject, gameState));
             System.out.println("-> picking up " + subject);
             System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("!!!! Unavailable item: " + subject + " !!!!");
         }
     }
-    private static void processTalk(String subject) {
+    private static void processTalk(String subject, GameState gameState) {
         System.out.println("talking to " + subject);
     }
-    private static void processUse(String subject) {
+    private static void processUse(String subject, GameState gameState) {
         System.out.println("using " + subject);
     }
 }

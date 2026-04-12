@@ -23,10 +23,10 @@ public class Main {
         game.printIntro();
         game.initGame(gameState);
 
-        while (game.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
+        while (gameState.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
             game.promptPlayer(gameState);
         }
 
-        game.printOutro();
+        game.printOutro(gameState);
     }
 }
