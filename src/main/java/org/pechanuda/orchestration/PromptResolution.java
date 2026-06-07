@@ -82,7 +82,7 @@ public class PromptResolution {
     }
     private static void processPick(String subject, GameState gameState) {
         try {
-            gameState.addItemToInventory(Game.getAvailableItemByName(subject, gameState));
+            gameState.addItemToInventory(gameState.getAvailableItemByName(subject));
             System.out.println("-> picking up " + subject);
             System.out.println();
         } catch (IllegalArgumentException e) {

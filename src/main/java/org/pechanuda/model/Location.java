@@ -81,4 +81,14 @@ public class Location extends Entity {
     public void addExit(Location exit) {
         exits.add(exit);
     }
+
+    public Item removeItemByName(String itemName) {
+        for (Item item : items) {
+            if (item.getName().equals(name)) {
+                items.remove(item);
+                return item;
+            }
+        }
+        throw new IllegalArgumentException("Unable to pick up item: " + name + ", not present in the location.");
+    }
 }

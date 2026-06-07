@@ -1,8 +1,6 @@
 package org.pechanuda.orchestration;
 
 import org.pechanuda.model.GameWorld;
-import org.pechanuda.model.Item;
-import org.pechanuda.model.Location;
 
 public class Game implements IGame {
 
@@ -44,30 +42,11 @@ public class Game implements IGame {
     public void printOutro(GameState gameState) {
         if (gameState.getGameStatus().equals(GameStatus.VICTORY)) {
             System.out.println("Congratz!");
-        } if (gameState.getGameStatus().equals(GameStatus.EXITED)) {
+        } else if (gameState.getGameStatus().equals(GameStatus.EXITED)) {
             System.out.println("Sorry to hear that you're leaving, see you next time!");
         } else {
             System.out.println("gg");
         }
-    }
-
-    public static Item getAvailableItemByName(String name, GameState gameState) {
-        for (Item item : gameState.getCurrentLocation().getItems()) {
-            if (item.getName().equals(name)) {
-                gameState.getCurrentLocation().getItems().remove(item);
-                return item;
-            }
-        }
-        throw new IllegalArgumentException("Unable to pick up item: " + name);
-    }
-
-    public static Location getAvailableLocationByName(String name, GameState gameState) {
-        for (Location loc : gameState.getAvailableLocations()) {
-            if (loc.getName().equals(name)) {
-                return loc;
-            }
-        }
-        throw new IllegalArgumentException("Unable to find location: " + name);
     }
 
     @Override
