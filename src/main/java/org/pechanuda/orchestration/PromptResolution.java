@@ -7,9 +7,14 @@ public class PromptResolution {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void readPrompt(GameState gameState) {
-        String prompt = scanner.nextLine();
+        if (scanner.hasNextLine()) {
+            String prompt = scanner.nextLine();
 
-        processPrompt(prompt, gameState);
+            processPrompt(prompt, gameState);
+        } else {
+            System.out.println("No input, exiting");
+            gameState.setGameStatus(GameStatus.EXITED);
+        }
     }
 
     public static void processPrompt(String prompt, GameState gameState) {
