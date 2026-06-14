@@ -102,8 +102,8 @@ public class WorldLoader {
             Location loc = new Location(
                 locObject.getInt("id"),
                 locObject.getString("name"),
-                locObject.getBoolean("hidden"),
-                locObject.getBoolean("locked")
+                locObject.getBoolean("locked"),
+                locObject.getBoolean("hidden")
             );
             List<Integer> itemsIdsList = null;
             try {

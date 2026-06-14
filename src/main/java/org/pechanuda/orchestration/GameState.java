@@ -40,16 +40,6 @@ public class GameState {
         setCurrentLocation(getAvailableLocationByName(chosenLocation));
     }
 
-    public Item getAvailableItemByName(String name) {
-        for (Item item : currentLocation.getItems()) {
-            if (item.getName().equals(name)) {
-                currentLocation.getItems().remove(item);
-                return item;
-            }
-        }
-        throw new IllegalArgumentException("Unable to pick up item: " + name);
-    }
-
     public Location getAvailableLocationByName(String name) {
         for (Location loc : currentLocation.getExits()) {
             if (loc.getName().equals(name)) {

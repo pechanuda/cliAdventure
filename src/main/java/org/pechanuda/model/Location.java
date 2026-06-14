@@ -82,13 +82,13 @@ public class Location extends Entity {
         exits.add(exit);
     }
 
-    public Item removeItemByName(String itemName) {
+    public Item getAndRemoveItemByName(String itemName) {
         for (Item item : items) {
-            if (item.getName().equals(name)) {
+            if (item.getName().equals(itemName)) {
                 items.remove(item);
                 return item;
             }
         }
-        throw new IllegalArgumentException("Unable to pick up item: " + name + ", not present in the location.");
+        throw new IllegalArgumentException("Unable to pick up item: " + itemName + ", not present in the location.");
     }
 }
