@@ -1,6 +1,7 @@
 package org.pechanuda.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Location extends Entity {
@@ -83,9 +84,11 @@ public class Location extends Entity {
     }
 
     public Item getAndRemoveItemByName(String itemName) {
-        for (Item item : items) {
+        Iterator<Item> itemsIterator = items.iterator();
+        while(itemsIterator.hasNext()) {
+            Item item = itemsIterator.next();
             if (item.getName().equals(itemName)) {
-                items.remove(item);
+                itemsIterator.remove();
                 return item;
             }
         }
