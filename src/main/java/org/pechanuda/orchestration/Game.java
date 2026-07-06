@@ -20,7 +20,7 @@ public class Game implements IGame {
         System.out.println("----------------------------");
         System.out.println("go <LOCATION> | attack <MONSTER> | pick <ITEM> | use <ITEM>");
 
-        PromptResolution.readPrompt(gameState);
+        PromptReader.readPrompt(gameState);
     }
 
     @Override
